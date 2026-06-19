@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Navbar from "./components/Navbar";
+import Carrusel from "./components/Carrusel";
 import { supabase } from "./lib/supabase";
 import { useCarrito } from "./lib/CarritoContext";
 
@@ -56,29 +57,7 @@ export default function Home() {
       <Navbar />
 
       {/* HERO */}
-      <section className="flex flex-col items-center justify-center text-center px-6 py-32 gap-6">
-        <p className="text-cyan-400 text-sm tracking-widest uppercase">
-          Tecnología al alcance de todos
-        </p>
-        <h2 className="text-5xl font-extrabold leading-tight max-w-3xl">
-          Los mejores <span className="text-cyan-400">electrónicos</span> en un solo lugar
-        </h2>
-        <p className="text-gray-400 max-w-xl text-lg">
-          Encuentra laptops, accesorios, gadgets y más. Envío rápido, precios justos y garantía en cada compra.
-        </p>
-        <div className="flex gap-4 mt-4">
-          <Link href="/productos">
-            <button className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-3 rounded-xl text-lg transition">
-              Ver productos
-            </button>
-          </Link>
-          <Link href="/contacto">
-            <button className="border border-cyan-700 hover:border-cyan-400 text-cyan-400 px-8 py-3 rounded-xl text-lg transition">
-              Contáctanos
-            </button>
-          </Link>
-        </div>
-      </section>
+      <Carrusel />
 
       {/* CATEGORÍAS */}
       <section className="px-8 py-16 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
