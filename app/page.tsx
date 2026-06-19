@@ -1,9 +1,58 @@
+"use client";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Navbar from "./components/Navbar";
+import { supabase } from "./lib/supabase";
+import { useCarrito } from "./lib/CarritoContext";
+
+type Producto = {
+  id: number;
+  nombre: string;
+  descripcion: string;
+  precio: number;
+  categoria: string;
+  destacado: boolean;
+};
 
 export default function Home() {
+  const [destacados, setDestacados] = useState<Producto[]>([]);
+  const [cargando, setCargando] = useState(true);
+  const { agregarProducto } = useCarrito();
+  const [notificacion, setNotificacion] = useState("");
+
+  useEffect(() => {
+    const obtenerDestacados = async () => {
+      const { data, error } = await supabase
+        .from("productos")
+        .select("*")
+        .eq("destacado", true)
+        .order("id", { ascending: true });
+
+      if (error) {
+        console.error("Error al cargar destacados:", error);
+      } else {
+        setDestacados(data);
+      }
+      setCargando(false);
+    };
+
+    obtenerDestacados();
+  }, []);
+
+  const handleAgregar = (producto: Producto) => {
+    agregarProducto(producto);
+    setNotificacion(`✅ ${producto.nombre} agregado al carrito`);
+    setTimeout(() => setNotificacion(""), 2500);
+  };
+
   return (
     <main className="min-h-screen bg-black text-white">
+      {notificacion && (
+        <div className="fixed top-20 right-6 bg-cyan-500 text-black font-semibold px-5 py-3 rounded-xl shadow-lg z-50 transition">
+          {notificacion}
+        </div>
+      )}
+
       <Navbar />
 
       {/* HERO */}
@@ -32,7 +81,6 @@ export default function Home() {
       </section>
 
       {/* CATEGORÍAS */}
-      {/* CATEGORÍAS */}
       <section className="px-8 py-16 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
         {[
           { icon: "💻", title: "Laptops", desc: "Para trabajo y estudio" },
@@ -48,6 +96,56 @@ export default function Home() {
           </Link>
         ))}
       </section>
+
+      {/* DESTACADOS / MÁS VENDIDOS */}
+      {!cargando && destacados.length > 0 && (
+        <section className="px-8 py-16 max-w-6xl mx-auto">
+          <div className="text-center mb-10">
+            <p className="text-cyan-400 text-sm tracking-widest uppercase mb-2">
+              Selección especial
+            </p>
+            <h2 className="text-3xl font-extrabold">
+              Más <span className="text-cyan-400">Vendidos</span>
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {destacados.map((producto) => (
+              <div
+                key={producto.id}
+                className="relative border border-cyan-900 rounded-2xl p-5 bg-gray-950 hover:border-cyan-400 transition flex flex-col"
+              >
+                <span className="absolute top-3 right-3 bg-cyan-500 text-black text-xs font-bold px-2 py-1 rounded-full">
+                  ⭐ Destacado
+                </span>
+                <div className="bg-gray-900 rounded-xl h-32 flex items-center justify-center mb-4 text-4xl">
+                  📦
+                </div>
+                <span className="text-xs text-cyan-400 uppercase tracking-wide mb-1">
+                  {producto.categoria}
+                </span>
+                <h3 className="text-base font-bold text-white mb-1">
+                  {producto.nombre}
+                </h3>
+                <p className="text-gray-400 text-xs mb-3 flex-1">
+                  {producto.descripcion}
+                </p>
+                <div className="flex items-center justify-between mt-auto">
+                  <span className="text-lg font-bold text-cyan-400">
+                    L. {producto.precio}
+                  </span>
+                  <button
+                    onClick={() => handleAgregar(producto)}
+                    className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold px-3 py-2 rounded-lg text-xs transition"
+                  >
+                    Agregar
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* FOOTER */}
       <footer className="text-center text-gray-600 text-sm py-8 border-t border-cyan-900">
