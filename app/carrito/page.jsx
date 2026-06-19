@@ -1,15 +1,49 @@
 "use client";
 import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useCarrito } from "../lib/CarritoContext";
+import { useUsuario } from "../lib/UsuarioContext";
 import Navbar from "../components/Navbar";
 
 export default function Carrito() {
   const { carrito, quitarProducto, cambiarCantidad, totalPrecio, vaciarCarrito } =
     useCarrito();
+  const { usuario } = useUsuario();
+  const router = useRouter();
+  const [procesando, setProcesando] = useState(false);
+
+  const handlePagar = async () => {
+    if (!usuario) {
+      router.push("/login");
+      return;
+    }
+
+    setProcesando(true);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ carrito }),
+      });
+
+      const data = await res.json();
+
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        alert("Hubo un error al procesar el pago.");
+        setProcesando(false);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Hubo un error al procesar el pago.");
+      setProcesando(false);
+    }
+  };
 
   return (
     <main className="min-h-screen bg-black text-white">
-      {/* NAVBAR */}
       <Navbar />
 
       <section className="px-8 py-12 max-w-4xl mx-auto">
@@ -87,9 +121,23 @@ export default function Carrito() {
               </div>
             </div>
 
+            {!usuario && (
+              <p className="text-center text-sm text-gray-400 mt-4">
+                Debes{" "}
+                <Link href="/login" className="text-cyan-400 hover:underline">
+                  iniciar sesión
+                </Link>{" "}
+                para completar tu compra.
+              </p>
+            )}
+
             <div className="mt-6 text-right">
-              <button className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-3 rounded-xl transition">
-                Proceder al pago
+              <button
+                onClick={handlePagar}
+                disabled={procesando}
+                className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-3 rounded-xl transition disabled:opacity-50"
+              >
+                {procesando ? "Procesando..." : "Proceder al pago"}
               </button>
             </div>
           </>

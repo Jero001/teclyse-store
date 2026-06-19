@@ -15,7 +15,7 @@ const slides = [
     titulo: "Ofertas especiales",
     subtitulo: "Aprovecha los mejores precios en TECLYSE",
     boton: "Ver ofertas",
-    link: "/productos",
+    link: "/ofertas",
   },
 ];
 
