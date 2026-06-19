@@ -1,11 +1,19 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { supabase } from "../lib/supabase";
 import { useCarrito } from "../lib/CarritoContext";
 import { useSearchParams } from "next/navigation";
 import Navbar from "../components/Navbar";
 
 export default function Productos() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <ProductosContenido />
+    </Suspense>
+  );
+}
+
+function ProductosContenido() {
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const { agregarProducto } = useCarrito();
