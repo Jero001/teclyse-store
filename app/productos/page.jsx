@@ -1,11 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
+import { useCarrito } from "../lib/CarritoContext";
 import Link from "next/link";
+import Navbar from "../components/Navbar";
 
 export default function Productos() {
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
+  const { agregarProducto, totalItems } = useCarrito();
+  const [notificacion, setNotificacion] = useState("");
 
   useEffect(() => {
     const obtenerProductos = async () => {
@@ -23,26 +27,24 @@ export default function Productos() {
     };
 
     obtenerProductos();
+
   }, []);
+
+  const handleAgregar = (producto) => {
+    agregarProducto(producto);
+    setNotificacion(`✅ ${producto.nombre} agregado al carrito`);
+    setTimeout(() => setNotificacion(""), 2500);
+  };
 
   return (
     <main className="min-h-screen bg-black text-white">
-      {/* NAVBAR */}
-      <nav className="flex items-center justify-between px-8 py-5 border-b border-cyan-900">
-        <Link href="/">
-          <h1 className="text-2xl font-bold tracking-widest text-cyan-400">
-            TECLYSE
-          </h1>
-        </Link>
-        <div className="flex gap-6 text-sm text-gray-300">
-          <Link href="/" className="hover:text-cyan-400 transition">Inicio</Link>
-          <Link href="/productos" className="text-cyan-400">Productos</Link>
-          <Link href="/contacto" className="hover:text-cyan-400 transition">Contacto</Link>
+      {notificacion && (
+        <div className="fixed top-20 right-6 bg-cyan-500 text-black font-semibold px-5 py-3 rounded-xl shadow-lg z-50 transition">
+          {notificacion}
         </div>
-        <button className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold px-4 py-2 rounded-lg text-sm transition">
-          🛒 Carrito
-        </button>
-      </nav>
+      )}
+      
+      <Navbar />
 
       {/* TITULO */}
       <section className="px-8 py-12 text-center">
@@ -81,7 +83,10 @@ export default function Productos() {
                   <span className="text-xl font-bold text-cyan-400">
                     L. {producto.precio}
                   </span>
-                  <button className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold px-4 py-2 rounded-lg text-sm transition">
+                  <button
+                    onClick={() => handleAgregar(producto)}
+                    className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold px-4 py-2 rounded-lg text-sm transition"
+                  >
                     Agregar
                   </button>
                 </div>

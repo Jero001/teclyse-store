@@ -1,22 +1,10 @@
 import Link from "next/link";
+import Navbar from "./components/Navbar";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-black text-white">
-      {/* NAVBAR */}
-      <nav className="flex items-center justify-between px-8 py-5 border-b border-cyan-900">
-        <h1 className="text-2xl font-bold tracking-widest text-cyan-400">
-          TECLYSE
-        </h1>
-        <div className="flex gap-6 text-sm text-gray-300">
-          <Link href="/" className="hover:text-cyan-400 transition">Inicio</Link>
-          <Link href="/productos" className="hover:text-cyan-400 transition">Productos</Link>
-          <Link href="/contacto" className="hover:text-cyan-400 transition">Contacto</Link>
-        </div>
-        <button className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold px-4 py-2 rounded-lg text-sm transition">
-          🛒 Carrito
-        </button>
-      </nav>
+      <Navbar />
 
       {/* HERO */}
       <section className="flex flex-col items-center justify-center text-center px-6 py-32 gap-6">
@@ -67,4 +55,4 @@ export default function Home() {
       </footer>
     </main>
   );
-};
+}

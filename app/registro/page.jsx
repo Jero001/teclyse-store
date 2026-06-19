@@ -1,6 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
+import { useCarrito } from "../lib/CarritoContext";
 import Link from "next/link";
 
 export default function Registro() {
