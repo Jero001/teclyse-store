@@ -2,26 +2,22 @@
 import { useState } from "react";
 import { supabase } from "../lib/supabase";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
-export default function Login() {
+export default function Recuperar() {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [mensaje, setMensaje] = useState("");
   const [cargando, setCargando] = useState(false);
-  const router = useRouter();
 
-  const handleLogin = async () => {
+  const handleRecuperar = async () => {
     setCargando(true);
     setMensaje("");
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: "https://teclyse-store.vercel.app/nueva-contrasena",
     });
     if (error) {
-      setMensaje("❌ Correo o contraseña incorrectos.");
+      setMensaje("❌ Error: " + error.message);
     } else {
-      router.push("/");
+      setMensaje("✅ Revisa tu correo, te enviamos un link para restablecer tu contraseña.");
     }
     setCargando(false);
   };
@@ -33,46 +29,34 @@ export default function Login() {
           TECLYSE
         </h1>
         <p className="text-gray-400 text-center text-sm mb-8">
-          Inicia sesión en tu cuenta
+          Recupera tu contraseña
         </p>
 
         <div className="flex flex-col gap-4">
           <input
             type="email"
-            placeholder="Correo electrónico"
+            placeholder="Tu correo electrónico"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="bg-gray-900 border border-cyan-900 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400"
           />
-          <input
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="bg-gray-900 border border-cyan-900 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400"
-          />
 
           {mensaje && (
-            <p className="text-sm text-center text-red-400">{mensaje}</p>
+            <p className="text-sm text-center text-cyan-300">{mensaje}</p>
           )}
 
           <button
-            onClick={handleLogin}
+            onClick={handleRecuperar}
             disabled={cargando}
             className="bg-cyan-500 hover:bg-cyan-400 text-black font-bold py-3 rounded-xl transition disabled:opacity-50"
           >
-            {cargando ? "Entrando..." : "Iniciar sesión"}
+            {cargando ? "Enviando..." : "Enviar link de recuperación"}
           </button>
 
           <p className="text-center text-gray-500 text-sm">
-            ¿No tienes cuenta?{" "}
-            <Link href="/registro" className="text-cyan-400 hover:underline">
-              Regístrate
-            </Link>
-          </p>
-          <p className="text-center text-gray-500 text-sm">
-            <Link href="/recuperar" className="text-cyan-400 hover:underline">
-              ¿Olvidaste tu contraseña?
+            ¿Recordaste tu contraseña?{" "}
+            <Link href="/login" className="text-cyan-400 hover:underline">
+              Inicia sesión
             </Link>
           </p>
         </div>
