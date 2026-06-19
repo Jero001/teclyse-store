@@ -32,20 +32,20 @@ export default function Home() {
       </section>
 
       {/* CATEGORÍAS */}
+      {/* CATEGORÍAS */}
       <section className="px-8 py-16 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
         {[
           { icon: "💻", title: "Laptops", desc: "Para trabajo y estudio" },
           { icon: "🎧", title: "Accesorios", desc: "Audio, periféricos y más" },
           { icon: "📱", title: "Gadgets", desc: "Lo último en tecnología" },
         ].map((cat) => (
-          <div
-            key={cat.title}
-            className="border border-cyan-900 rounded-2xl p-6 text-center hover:border-cyan-400 transition cursor-pointer bg-gray-950"
-          >
-            <div className="text-4xl mb-3">{cat.icon}</div>
-            <h3 className="text-lg font-bold text-white">{cat.title}</h3>
-            <p className="text-gray-400 text-sm mt-1">{cat.desc}</p>
-          </div>
+          <Link key={cat.title} href={`/productos?categoria=${encodeURIComponent(cat.title)}`}>
+            <div className="border border-cyan-900 rounded-2xl p-6 text-center hover:border-cyan-400 transition cursor-pointer bg-gray-950">
+              <div className="text-4xl mb-3">{cat.icon}</div>
+              <h3 className="text-lg font-bold text-white">{cat.title}</h3>
+              <p className="text-gray-400 text-sm mt-1">{cat.desc}</p>
+            </div>
+          </Link>
         ))}
       </section>
 

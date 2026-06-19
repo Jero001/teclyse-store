@@ -2,21 +2,26 @@
 import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabase";
 import { useCarrito } from "../lib/CarritoContext";
-import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import Navbar from "../components/Navbar";
 
 export default function Productos() {
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
-  const { agregarProducto, totalItems } = useCarrito();
+  const { agregarProducto } = useCarrito();
   const [notificacion, setNotificacion] = useState("");
+  const searchParams = useSearchParams();
+  const categoriaFiltro = searchParams.get("categoria");
 
   useEffect(() => {
     const obtenerProductos = async () => {
-      const { data, error } = await supabase
-        .from("productos")
-        .select("*")
-        .order("id", { ascending: true });
+      let query = supabase.from("productos").select("*").order("id", { ascending: true });
+
+      if (categoriaFiltro) {
+        query = query.eq("categoria", categoriaFiltro);
+      }
+
+      const { data, error } = await query;
 
       if (error) {
         console.error("Error al cargar productos:", error);
@@ -27,8 +32,7 @@ export default function Productos() {
     };
 
     obtenerProductos();
-
-  }, []);
+  }, [categoriaFiltro]);
 
   const handleAgregar = (producto) => {
     agregarProducto(producto);
@@ -43,15 +47,35 @@ export default function Productos() {
           {notificacion}
         </div>
       )}
-      
+
       <Navbar />
 
       {/* TITULO */}
       <section className="px-8 py-12 text-center">
         <h2 className="text-4xl font-extrabold mb-2">
-          Nuestros <span className="text-cyan-400">Productos</span>
+          {categoriaFiltro ? (
+            <>
+              <span className="text-cyan-400">{categoriaFiltro}</span>
+            </>
+          ) : (
+            <>
+              Nuestros <span className="text-cyan-400">Productos</span>
+            </>
+          )}
         </h2>
-        <p className="text-gray-400">Tecnología de calidad, al mejor precio</p>
+        <p className="text-gray-400">
+          {categoriaFiltro
+            ? `Mostrando productos de la categoría ${categoriaFiltro}`
+            : "Tecnología de calidad, al mejor precio"}
+        </p>
+        {categoriaFiltro && (
+          <a
+            href="/productos"
+            className="inline-block mt-3 text-cyan-400 hover:underline text-sm"
+          >
+            ← Ver todos los productos
+          </a>
+        )}
       </section>
 
       {/* GRID DE PRODUCTOS */}
@@ -59,7 +83,11 @@ export default function Productos() {
         {cargando ? (
           <p className="text-center text-gray-400">Cargando productos...</p>
         ) : productos.length === 0 ? (
-          <p className="text-center text-gray-400">No hay productos disponibles todavía.</p>
+          <p className="text-center text-gray-400">
+            {categoriaFiltro
+              ? `No hay productos en la categoría "${categoriaFiltro}" todavía.`
+              : "No hay productos disponibles todavía."}
+          </p>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {productos.map((producto) => (
