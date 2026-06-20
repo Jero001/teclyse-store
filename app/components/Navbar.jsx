@@ -25,16 +25,26 @@ export default function Navbar() {
         {/* SECCIÓN USUARIO */}
         {!cargandoUsuario && (
           usuario ? (
-            <div className="flex items-center gap-3 text-sm">
-              <span className="text-gray-300">
+            <div className="relative group">
+              <button className="flex items-center gap-1 text-gray-300 hover:text-cyan-400 transition text-sm py-2">
                 👤 {usuario.user_metadata?.nombre || usuario.email}
-              </span>
-              <button
-                onClick={cerrarSesion}
-                className="text-red-400 hover:text-red-300 transition"
-              >
-                Cerrar sesión
+                <span className="text-xs">▾</span>
               </button>
+
+              <div className="absolute right-0 top-full hidden group-hover:block bg-gray-950 border border-cyan-900 rounded-xl py-2 min-w-[180px] z-50">
+                <Link
+                  href="/mis-pedidos"
+                  className="block px-4 py-2 text-sm text-gray-300 hover:text-cyan-400 hover:bg-gray-900 transition"
+                >
+                  📦 Ver mis pedidos
+                </Link>
+                <button
+                  onClick={cerrarSesion}
+                  className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-gray-900 transition"
+                >
+                  🚪 Cerrar sesión
+                </button>
+              </div>
             </div>
           ) : (
             <div className="flex items-center gap-3 text-sm">

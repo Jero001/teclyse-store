@@ -18,13 +18,13 @@ export async function POST(request) {
       quantity: item.cantidad,
     }));
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      line_items,
-      mode: "payment",
-      success_url: `${request.headers.get("origin")}/exito`,
-      cancel_url: `${request.headers.get("origin")}/carrito`,
-    });
+   const session = await stripe.checkout.sessions.create({
+  payment_method_types: ["card"],
+  line_items,
+  mode: "payment",
+  success_url: `${request.headers.get("origin")}/exito?session_id={CHECKOUT_SESSION_ID}`,
+  cancel_url: `${request.headers.get("origin")}/carrito`,
+  });
 
     return NextResponse.json({ url: session.url });
   } catch (error) {
