@@ -68,36 +68,42 @@ export default function Carrito() {
               {carrito.map((item) => (
                 <div
                   key={item.id}
-                  className="flex items-center justify-between border border-cyan-900 rounded-xl p-4 bg-gray-950"
+                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border border-cyan-900 rounded-xl p-4 bg-gray-950"
                 >
                   <div className="flex-1">
                     <h3 className="font-bold text-white">{item.nombre}</h3>
                     <p className="text-gray-400 text-sm">L. {item.precio} c/u</p>
                   </div>
 
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={() => cambiarCantidad(item.id, item.cantidad - 1)}
-                      className="bg-gray-800 hover:bg-gray-700 w-8 h-8 rounded-lg text-white"
-                    >
-                      −
-                    </button>
-                    <span className="w-6 text-center">{item.cantidad}</span>
-                    <button
-                      onClick={() => cambiarCantidad(item.id, item.cantidad + 1)}
-                      className="bg-gray-800 hover:bg-gray-700 w-8 h-8 rounded-lg text-white"
-                    >
-                      +
-                    </button>
+                  <div className="flex items-center justify-between sm:justify-start sm:gap-3">
+                    <div className="flex items-center gap-3">
+                      <button
+                        onClick={() => cambiarCantidad(item.id, item.cantidad - 1)}
+                        className="bg-gray-800 hover:bg-gray-700 w-8 h-8 rounded-lg text-white"
+                      >
+                        −
+                      </button>
+                      <span className="w-6 text-center">{item.cantidad}</span>
+                      <button
+                        onClick={() => cambiarCantidad(item.id, item.cantidad + 1)}
+                        className="bg-gray-800 hover:bg-gray-700 w-8 h-8 rounded-lg text-white"
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    <div className="sm:hidden font-bold text-cyan-400">
+                      L. {(item.precio * item.cantidad).toFixed(2)}
+                    </div>
                   </div>
 
-                  <div className="w-28 text-right font-bold text-cyan-400">
+                  <div className="hidden sm:block w-28 text-right font-bold text-cyan-400">
                     L. {(item.precio * item.cantidad).toFixed(2)}
                   </div>
 
                   <button
                     onClick={() => quitarProducto(item.id)}
-                    className="ml-4 text-red-400 hover:text-red-300 text-sm"
+                    className="text-red-400 hover:text-red-300 text-sm text-left sm:text-right sm:ml-4"
                   >
                     Eliminar
                   </button>

@@ -41,8 +41,6 @@ function ExitoContenido() {
 
         const data = await res.json();
 
-        console.log("DATOS RECIBIDOS DE STRIPE:", JSON.stringify(data, null, 2));
-
         if (data.error) {
           setEstado("error");
           return;
@@ -62,7 +60,6 @@ function ExitoContenido() {
         }
 
         // 3. Descontar el stock de cada producto comprado
-    // 3. Descontar el stock de cada producto comprado
         for (const item of data.items) {
           if (item.producto_id) {
             const idNumerico = Number(item.producto_id);
@@ -76,7 +73,6 @@ function ExitoContenido() {
             if (errorProducto) {
               console.error("Error obteniendo producto:", errorProducto);
             }
-            console.log("Producto actual:", productoActual);
 
             if (productoActual) {
               const nuevoStock = Math.max(
@@ -90,8 +86,6 @@ function ExitoContenido() {
 
               if (errorUpdate) {
                 console.error("Error actualizando stock:", errorUpdate);
-              } else {
-                console.log(`Stock actualizado: ${nuevoStock}`);
               }
             }
           }

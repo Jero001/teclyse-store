@@ -140,7 +140,7 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer className="text-center text-gray-600 text-sm py-8 border-t border-cyan-900">
-        © 2025 TECLYSE — Aprende de IT conmigo
+        © 2026 TECLYSE — Diseñado con ❤️ por el equipo de TECLYSE. Todos los derechos reservados.
       </footer>
     </main>
   );
