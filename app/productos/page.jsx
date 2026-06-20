@@ -106,8 +106,16 @@ function ProductosContenido() {
                 key={producto.id}
                 className="border border-cyan-900 rounded-2xl p-5 bg-gray-950 hover:border-cyan-400 transition flex flex-col"
               >
-                <div className="bg-gray-900 rounded-xl h-40 flex items-center justify-center mb-4 text-4xl">
-                  📦
+                <div className="bg-gray-900 rounded-xl h-40 flex items-center justify-center mb-4 overflow-hidden">
+                  {producto.imagen ? (
+                    <img
+                      src={producto.imagen}
+                      alt={producto.nombre}
+                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                    />
+                  ) : (
+                    <span className="text-4xl">📦</span>
+                  )}
                 </div>
                 <span className="text-xs text-cyan-400 uppercase tracking-wide mb-1">
                   {producto.categoria}

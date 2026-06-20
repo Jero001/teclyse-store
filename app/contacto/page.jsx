@@ -1,4 +1,5 @@
 import Navbar from "../components/Navbar";
+import { Mail, Camera, Share2, MapPin } from "lucide-react";
 
 export default function Contacto() {
   return (
@@ -23,42 +24,42 @@ export default function Contacto() {
             href="mailto:contacto@teclyse.com"
             className="border border-cyan-900 rounded-2xl p-6 hover:border-cyan-400 transition bg-gray-950 flex flex-col items-center gap-3"
           >
-            <span className="text-3xl">✉️</span>
+            <Mail size={32} strokeWidth={1.5} className="text-cyan-400" />
             <h3 className="font-bold text-white">Correo</h3>
             <p className="text-gray-400 text-sm">contacto@teclyse.com</p>
           </a>
 
           {/* INSTAGRAM */}
           <a
-            href="https://instagram.com/teclyse"
+           href="https://instagram.com/teclyse"
             target="_blank"
             rel="noopener noreferrer"
             className="border border-cyan-900 rounded-2xl p-6 hover:border-cyan-400 transition bg-gray-950 flex flex-col items-center gap-3"
           >
-            <span className="text-3xl">📷</span>
+            <Camera size={32} strokeWidth={1.5} className="text-cyan-400" />
             <h3 className="font-bold text-white">Instagram</h3>
             <p className="text-gray-400 text-sm">@teclyse</p>
           </a>
 
           {/* FACEBOOK */}
           <a
-            href="https://facebook.com/teclyse"
+           href="https://facebook.com/teclyse"
             target="_blank"
             rel="noopener noreferrer"
             className="border border-cyan-900 rounded-2xl p-6 hover:border-cyan-400 transition bg-gray-950 flex flex-col items-center gap-3"
           >
-            <span className="text-3xl">📘</span>
+            <Share2 size={32} strokeWidth={1.5} className="text-cyan-400" />
             <h3 className="font-bold text-white">Facebook</h3>
             <p className="text-gray-400 text-sm">/teclyse</p>
           </a>
         </div>
 
         <div className="border-t border-cyan-900 pt-8">
-          <p className="text-gray-500 text-sm">
-            📍 Blvd Morazán, Tegucigalpa, Honduras
+          <p className="text-gray-500 text-sm flex items-center justify-center gap-1">
+            <MapPin size={14} /> Blvd Morazán, Tegucigalpa, Honduras
           </p>
-          <p className="text-gray-500 text-sm">
-            📍 Blvd Cuarto Centenario, Comayagua, Honduras
+          <p className="text-gray-500 text-sm flex items-center justify-center gap-1">
+            <MapPin size={14} /> Blvd Cuarto Centenario, Comayagua, Honduras
           </p>
           <p className="text-gray-500 text-sm mt-3">
             Horario de atención:

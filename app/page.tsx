@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import Carrusel from "./components/Carrusel";
 import { supabase } from "./lib/supabase";
 import { useCarrito } from "./lib/CarritoContext";
+import { Laptop, Headphones, Smartphone } from "lucide-react";
 
 type Producto = {
   id: number;
@@ -13,6 +14,7 @@ type Producto = {
   precio: number;
   categoria: string;
   destacado: boolean;
+  imagen?: string;
 };
 
 export default function Home() {
@@ -62,13 +64,15 @@ export default function Home() {
       {/* CATEGORÍAS */}
       <section className="px-8 py-16 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-5xl mx-auto">
         {[
-          { icon: "💻", title: "Laptops", desc: "Para trabajo y estudio" },
-          { icon: "🎧", title: "Accesorios", desc: "Audio, periféricos y más" },
-          { icon: "📱", title: "Gadgets", desc: "Lo último en tecnología" },
+          { Icon: Laptop, title: "Laptops", desc: "Para trabajo y estudio" },
+          { Icon: Headphones, title: "Accesorios", desc: "Audio, periféricos y más" },
+          { Icon: Smartphone, title: "Gadgets", desc: "Lo último en tecnología" },
         ].map((cat) => (
           <Link key={cat.title} href={`/productos?categoria=${encodeURIComponent(cat.title)}`}>
             <div className="border border-cyan-900 rounded-2xl p-6 text-center hover:border-cyan-400 transition cursor-pointer bg-gray-950">
-              <div className="text-4xl mb-3">{cat.icon}</div>
+              <div className="flex justify-center mb-3 text-cyan-400">
+                <cat.Icon size={36} strokeWidth={1.5} />
+              </div>
               <h3 className="text-lg font-bold text-white">{cat.title}</h3>
               <p className="text-gray-400 text-sm mt-1">{cat.desc}</p>
             </div>
@@ -95,10 +99,18 @@ export default function Home() {
                 className="relative border border-cyan-900 rounded-2xl p-5 bg-gray-950 hover:border-cyan-400 transition flex flex-col"
               >
                 <span className="absolute top-3 right-3 bg-cyan-500 text-black text-xs font-bold px-2 py-1 rounded-full">
-                  ⭐ Destacado
+                  Destacado
                 </span>
-                <div className="bg-gray-900 rounded-xl h-32 flex items-center justify-center mb-4 text-4xl">
-                  📦
+                <div className="bg-gray-900 rounded-xl h-32 flex items-center justify-center mb-4 overflow-hidden">
+                  {producto.imagen ? (
+                    <img
+                      src={producto.imagen}
+                      alt={producto.nombre}
+                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                    />
+                  ) : (
+                    <span className="text-4xl">📦</span>
+                  )}
                 </div>
                 <span className="text-xs text-cyan-400 uppercase tracking-wide mb-1">
                   {producto.categoria}
