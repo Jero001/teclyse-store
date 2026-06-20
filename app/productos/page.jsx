@@ -42,8 +42,11 @@ function ProductosContenido() {
     obtenerProductos();
   }, [categoriaFiltro]);
 
-  const handleAgregar = (producto) => {
-    agregarProducto(producto);
+ const handleAgregar = (producto) => {
+    const productoFinal = producto.precio_oferta
+      ? { ...producto, precio: producto.precio_oferta }
+      : producto;
+    agregarProducto(productoFinal);
     setNotificacion(`✅ ${producto.nombre} agregado al carrito`);
     setTimeout(() => setNotificacion(""), 2500);
   };
@@ -116,9 +119,20 @@ function ProductosContenido() {
                   {producto.descripcion}
                 </p>
                 <div className="flex items-center justify-between mt-auto">
-                  <span className="text-xl font-bold text-cyan-400">
-                    L. {producto.precio}
-                  </span>
+                  {producto.precio_oferta ? (
+                    <div className="flex flex-col">
+                      <span className="text-sm text-gray-500 line-through">
+                        L. {producto.precio}
+                      </span>
+                      <span className="text-xl font-bold text-cyan-400">
+                        L. {producto.precio_oferta}
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="text-xl font-bold text-cyan-400">
+                      L. {producto.precio}
+                    </span>
+                  )}
                   <button
                     onClick={() => handleAgregar(producto)}
                     className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold px-4 py-2 rounded-lg text-sm transition"
