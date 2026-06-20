@@ -7,16 +7,18 @@ export async function POST(request) {
   try {
     const { carrito } = await request.json();
 
-    const line_items = carrito.map((item) => ({
-      price_data: {
-        currency: "usd",
-        product_data: {
-          name: item.nombre,
-        },
-        unit_amount: Math.round(item.precio * 100),
-      },
-      quantity: item.cantidad,
-    }));
+    
+const line_items = carrito.map((item) => ({
+  price_data: {
+    currency: "usd",
+    product_data: {
+      name: item.nombre,
+      metadata: { producto_id: item.id },
+    },
+    unit_amount: Math.round(item.precio * 100),
+  },
+  quantity: item.cantidad,
+}));
 
    const session = await stripe.checkout.sessions.create({
   payment_method_types: ["card"],

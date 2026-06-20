@@ -17,12 +17,14 @@ export default function Exito() {
 
 function ExitoContenido() {
   const { vaciarCarrito } = useCarrito();
-  const { usuario } = useUsuario();
+  const { usuario, cargandoUsuario } = useUsuario();
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const [estado, setEstado] = useState("procesando"); // procesando | listo | error
 
   useEffect(() => {
+    if (cargandoUsuario) return; // espera a que el usuario termine de cargar
+
     const procesarOrden = async () => {
       if (!sessionId || !usuario) {
         setEstado("error");
@@ -57,7 +59,29 @@ function ExitoContenido() {
           console.error("Error guardando orden:", error);
         }
 
-        // 3. Vaciar el carrito
+        // 3. Descontar el stock de cada producto comprado
+        for (const item of data.items) {
+          if (item.producto_id) {
+            const { data: productoActual } = await supabase
+              .from("productos")
+              .select("stock")
+              .eq("id", item.producto_id)
+              .single();
+
+            if (productoActual) {
+              const nuevoStock = Math.max(
+                0,
+                productoActual.stock - item.cantidad
+              );
+              await supabase
+                .from("productos")
+                .update({ stock: nuevoStock })
+                .eq("id", item.producto_id);
+            }
+          }
+        }
+
+        // 4. Vaciar el carrito
         vaciarCarrito();
         setEstado("listo");
       } catch (error) {
@@ -67,7 +91,7 @@ function ExitoContenido() {
     };
 
     procesarOrden();
-  }, [sessionId, usuario]);
+  }, [sessionId, usuario, cargandoUsuario]);
 
   return (
     <main className="min-h-screen bg-black text-white">

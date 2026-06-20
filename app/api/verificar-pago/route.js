@@ -15,14 +15,26 @@ export async function POST(request) {
       return NextResponse.json({ error: "Pago no confirmado" }, { status: 400 });
     }
 
-    return NextResponse.json({
-      total: session.amount_total / 100,
-      items: session.line_items.data.map((item) => ({
-        nombre: item.description,
-        cantidad: item.quantity,
-        precio: item.amount_total / 100 / item.quantity,
-      })),
+   const lineItemsConProducto = await Promise.all(
+  session.line_items.data.map(async (item) => {
+    const price = await stripe.prices.retrieve(item.price.id, {
+      expand: ["product"],
     });
+    return {
+      nombre: item.description,
+      cantidad: item.quantity,
+      precio: item.amount_total / 100 / item.quantity,
+      producto_id: price.product.metadata.producto_id,
+    };
+  })
+);
+
+return NextResponse.json({
+  total: session.amount_total / 100,
+  items: lineItemsConProducto,
+});
+
+
   } catch (error) {
     console.error("Error verificando pago:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
