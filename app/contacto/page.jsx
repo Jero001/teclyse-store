@@ -56,10 +56,10 @@ export default function Contacto() {
 
         <div className="border-t border-cyan-900 pt-8">
           <p className="text-gray-500 text-sm flex items-center justify-center gap-1">
-            <MapPin size={14} /> Blvd Morazán, Tegucigalpa, Honduras
+            <MapPin size={14} /> Blvd Morazán, Tegucigalpa
           </p>
           <p className="text-gray-500 text-sm flex items-center justify-center gap-1">
-            <MapPin size={14} /> Blvd Cuarto Centenario, Comayagua, Honduras
+            <MapPin size={14} /> Blvd Cuarto Centenario, Comayagua
           </p>
           <p className="text-gray-500 text-sm mt-3">
             Horario de atención:
