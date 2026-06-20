@@ -59,7 +59,7 @@ export default function Ofertas() {
           Por tiempo limitado
         </p>
         <h2 className="text-4xl font-extrabold mb-2">
-          🔥 <span className="text-cyan-400">Ofertas</span> especiales
+          <span className="text-cyan-400">Ofertas</span> especiales
         </h2>
         <p className="text-gray-400">Los mejores descuentos en tecnología</p>
       </section>
