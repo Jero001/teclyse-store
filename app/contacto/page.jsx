@@ -19,33 +19,34 @@ export default function Contacto() {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12">
           {/* CORREO */}
-          
-            <a href="mailto:contacto@teclyse.com"
-            className="border border-cyan-900 rounded-2xl p-6 hover:border-cyan-400 transition bg-gray-950 flex flex-col items-center gap-3">
+          <a
+            href="mailto:contacto@teclyse.com"
+            className="border border-cyan-900 rounded-2xl p-6 hover:border-cyan-400 transition bg-gray-950 flex flex-col items-center gap-3"
+          >
             <span className="text-3xl">✉️</span>
             <h3 className="font-bold text-white">Correo</h3>
             <p className="text-gray-400 text-sm">contacto@teclyse.com</p>
           </a>
 
           {/* INSTAGRAM */}
-          
-            <a section>href="https://instagram.com/teclyse"
+          <a
+            href="https://instagram.com/teclyse"
             target="_blank"
             rel="noopener noreferrer"
             className="border border-cyan-900 rounded-2xl p-6 hover:border-cyan-400 transition bg-gray-950 flex flex-col items-center gap-3"
-          
+          >
             <span className="text-3xl">📷</span>
             <h3 className="font-bold text-white">Instagram</h3>
             <p className="text-gray-400 text-sm">@teclyse</p>
-           </a>
+          </a>
 
           {/* FACEBOOK */}
-          
-            <a href="https://facebook.com/teclyse"
+          <a
+            href="https://facebook.com/teclyse"
             target="_blank"
             rel="noopener noreferrer"
             className="border border-cyan-900 rounded-2xl p-6 hover:border-cyan-400 transition bg-gray-950 flex flex-col items-center gap-3"
-             >
+          >
             <span className="text-3xl">📘</span>
             <h3 className="font-bold text-white">Facebook</h3>
             <p className="text-gray-400 text-sm">/teclyse</p>
@@ -54,16 +55,28 @@ export default function Contacto() {
 
         <div className="border-t border-cyan-900 pt-8">
           <p className="text-gray-500 text-sm">
-            📍 Tegucigalpa, Honduras
+            📍 Blvd Morazán, Tegucigalpa, Honduras
           </p>
-          <p className="text-gray-500 text-sm mt-1">
-            Horario de atención: Lunes a Viernes, 9am - 6pm
+          <p className="text-gray-500 text-sm">
+            📍 Blvd Cuarto Centenario, Comayagua, Honduras
+          </p>
+          <p className="text-gray-500 text-sm mt-3">
+            Horario de atención:
+          </p>
+          <p className="text-gray-500 text-sm">
+            Lunes a Viernes, 9am - 6pm
+          </p>
+          <p className="text-gray-500 text-sm">
+            Sábados, 9am - 1pm
+          </p>
+          <p className="text-gray-500 text-sm">
+            Domingo cerrado
           </p>
         </div>
       </section>
 
       <footer className="text-center text-gray-600 text-sm py-8 border-t border-cyan-900">
-        © 2025 TECLYSE — Aprende de IT conmigo
+        © 2026 TECLYSE — Tu mejor aliado en tecnología en Honduras
       </footer>
     </main>
   );
